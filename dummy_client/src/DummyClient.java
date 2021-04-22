@@ -36,7 +36,7 @@ public class DummyClient {
                 System.out.println(quote);
                 System.out.println();
  
-                Thread.sleep(10000);
+                Thread.sleep(200);
             }
  
         } catch (SocketTimeoutException ex) {

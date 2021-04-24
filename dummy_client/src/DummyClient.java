@@ -72,7 +72,7 @@ public class DummyClient {
         System.out.println("peerPort: "+peerPort);
 
         DatagramSocket socketPeer = new DatagramSocket(peerPort);
-        sendMessage("0_x", socketPeer, address, peerPort);
+        sendMessage("0_xhaha", socketPeer, address, peerPort);
         dataStr = receiveMessage(socketPeer);
 
         System.out.println("received from peer: "+dataStr);

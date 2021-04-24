@@ -26,6 +26,7 @@ public class PeerConnection extends DatagramServerThread {
     }
 
     public void run() {
+        System.out.println("peerConnection Run, port "+port);
         peerMessageDispenser.start();
 
         while (true) {
@@ -33,6 +34,7 @@ public class PeerConnection extends DatagramServerThread {
                 byte[] buffer = new byte[BUFFER_LEN];
                 DatagramPacket request = new DatagramPacket(buffer, buffer.length);
                 socket.receive(request);
+                System.out.println("peer packet received!");
                 analyzerSender.sendToAnalysis(request);
             } catch (IOException e) {
                 e.printStackTrace();

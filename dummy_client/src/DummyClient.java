@@ -84,7 +84,7 @@ public class DummyClient {
     }
 
     private static void testPeer1(DatagramSocket socket,InetAddress address, int port) throws IOException {
-//        sendMessage("0self_test", socket, address, port);
+        sendMessage("0self_test", socket, address, port);
         while(true) {
             String dataStr = receiveMessage(socket);
             System.out.println("received from peer: "+dataStr);

@@ -63,10 +63,11 @@ public class DummyClient {
 
         System.out.println("received from server: "+dataStr);
         System.out.println("udpServerMainPort: "+udpServerMainPort);
-
+        socket.close();
         DatagramSocket socketMainUdp = new DatagramSocket(udpServerMainPort);
         sendMessage("x", socketMainUdp, address, udpServerMainPort);
         dataStr = receiveMessage(socketMainUdp);
+        socketMainUdp.close();
 
         int peerPort = Integer.parseInt(dataStr);
 

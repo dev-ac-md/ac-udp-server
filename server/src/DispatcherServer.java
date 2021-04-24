@@ -39,6 +39,7 @@ public class DispatcherServer extends DatagramServerThread {
 
                     DatagramPacket response = new DatagramPacket(buffer, buffer.length, clientAddress, clientPort);
                     socket.send(response);
+                    System.out.println("response sent: "+message);
                 }
 
             } catch (IOException e) {

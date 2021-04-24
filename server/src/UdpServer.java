@@ -4,6 +4,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.stream.*;
 
 /**
@@ -78,7 +79,7 @@ public class UdpServer extends DatagramServerThread implements ISendPacketToPeer
     }
 
     private PeerConnection addPeerConnection(InetAddress clientAddress) throws SocketException {
-        if (Arrays.stream(peerConnections).noneMatch(s-> s!=null && s.getClientAddress().equals(clientAddress))) {
+        if (Arrays.stream(peerConnections).filter(Objects::nonNull).noneMatch(s-> s.getClientAddress().equals(clientAddress))) {
             Integer freeIndex = getFreeIndex();
             if (freeIndex != null) {
                 PeerConnection newPeerConnection = new PeerConnection(this.port + freeIndex + 1, this);
@@ -118,7 +119,7 @@ public class UdpServer extends DatagramServerThread implements ISendPacketToPeer
         peerMessageAnalyzer.addMessage(packet);
     }
 
-    public void broadcastOthers(DatagramPacket packet, int peerId) {
+    public void broadcastToOthers(DatagramPacket packet, int peerId) {
         for (int i=0; i < peerConnections.length; i++) {
             if (peerConnections[i]!=null && peerId != i) {
                 peerConnections[i].addMessage(packet);

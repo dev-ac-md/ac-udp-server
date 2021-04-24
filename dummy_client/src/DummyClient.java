@@ -9,7 +9,7 @@ import java.util.Date;
  * @author www.codejava.net
  */
 public class DummyClient {
-    
+    static final int BUFFER_SIZE = 64;
 //    private int timeout = 100;
 
     public static void main(String[] args) {
@@ -54,31 +54,40 @@ public class DummyClient {
     }
 
     private static void test1(DatagramSocket socket,InetAddress address, int port) throws IOException {
-        String message = "welcome";
+        sendMessage("welcome", socket, address, port);
+        String dataStr = receiveMessage(socket);
+
+        int udpServerMainPort = Integer.parseInt(dataStr);
+
+        System.out.println("received from server: "+dataStr);
+        System.out.println("udpServerMainPort: "+udpServerMainPort);
+
+        DatagramSocket socketMainUdp = new DatagramSocket(udpServerMainPort);
+        sendMessage("x", socketMainUdp, address, udpServerMainPort);
+        dataStr = receiveMessage(socketMainUdp);
+
+        int peerPort = Integer.parseInt(dataStr);
+
+        System.out.println("received from sub-server udp_main: "+dataStr);
+        System.out.println("peerPort: "+peerPort);
+
+        DatagramSocket socketPeer = new DatagramSocket(peerPort);
+        sendMessage("0_x", socketPeer, address, peerPort);
+        dataStr = receiveMessage(socketPeer);
+
+        System.out.println("received from peer: "+dataStr);
+    }
+
+    private static void sendMessage(String message, DatagramSocket socket,InetAddress address, int port) throws IOException {
         byte[] buffer = message.getBytes();
         DatagramPacket request = new DatagramPacket(buffer, buffer.length, address, port);
         socket.send(request);
+    }
 
-        DatagramPacket response = new DatagramPacket(buffer, buffer.length);
+    private static String receiveMessage(DatagramSocket socket) throws IOException {
+        DatagramPacket response = new DatagramPacket(new byte[BUFFER_SIZE], BUFFER_SIZE);
         socket.receive(response);
-        String dataStr = new String(buffer, 0, response.getLength());
-        System.out.println("received from server: "+dataStr);
-        int udpServerMainPort = Integer.parseInt(dataStr);
-        System.out.println("udpServerMainPort: "+udpServerMainPort);
-
-        udpServerMainPort = 34000;
-        DatagramSocket socketMainUdp = new DatagramSocket(udpServerMainPort);
-        message = "x";
-        buffer = message.getBytes();
-        request = new DatagramPacket(buffer, buffer.length, address, udpServerMainPort);
-        socketMainUdp.send(request);
-
-        response = new DatagramPacket(buffer, buffer.length);
-        socketMainUdp.receive(response);
-        dataStr = new String(buffer, 0, response.getLength());
-        System.out.println("received from sub-server udp_main: "+dataStr);
-        int peerPort = Integer.parseInt(dataStr);
-        System.out.println("peerPort: "+peerPort);
+        return new String(response.getData(), 0, response.getLength());
     }
 
     private static void processResponse(String dataStr) {

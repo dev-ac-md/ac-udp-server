@@ -3,6 +3,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.util.LinkedList;
 import java.util.Queue;
 
 /**
@@ -13,13 +14,14 @@ import java.util.Queue;
  */
 public class PeerMessageAnalyzer extends Thread {
 
-    private Queue<DatagramPacket> msgQueue;
+    private final Queue<DatagramPacket> msgQueue;
     private boolean isRunning;
-    private ISendPacketToPeer peerSender;
+    private final ISendPacketToPeer peerSender;
 
-    public PeerMessageAnalyzer(ISendPacketToPeer peerSender) throws SocketException {
+    public PeerMessageAnalyzer(ISendPacketToPeer peerSender) {
         isRunning = true;
         this.peerSender = peerSender;
+        this.msgQueue = new LinkedList<>();
     }
 
     public void run() {
@@ -46,8 +48,9 @@ public class PeerMessageAnalyzer extends Thread {
         int peerId = Integer.parseInt(dataStr.substring(0,1));
 
         String message = dataStr.substring(1);
-        byte[] buffer = message.getBytes();
+        System.out.println("messageAnalysis: peerId= "+peerId+", message= "+message);
 
+        byte[] buffer = message.getBytes();
         DatagramPacket response = new DatagramPacket(buffer, buffer.length, clientAddress, clientPort);
         peerSender.sendPacketToPeer(response, peerId);
     }

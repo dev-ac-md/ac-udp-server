@@ -33,7 +33,7 @@ public class PeerConnection extends DatagramServerThread {
                 byte[] buffer = new byte[BUFFER_LEN];
                 DatagramPacket request = new DatagramPacket(buffer, buffer.length);
                 socket.receive(request);
-
+                analyzerSender.sendToAnalysis(request);
             } catch (IOException e) {
                 e.printStackTrace();
             }

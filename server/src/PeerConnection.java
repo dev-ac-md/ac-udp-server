@@ -14,10 +14,10 @@ public class PeerConnection extends DatagramServerThread {
     PeerMessageDispenser peerMessageDispenser;
     ISendToAnalysis analyzerSender;
 
-    public PeerConnection(int port, ISendToAnalysis analyzerSender) throws SocketException {
+    public PeerConnection(InetAddress address, int port, ISendToAnalysis analyzerSender) throws SocketException {
         super(port);
         System.out.println("Create PeerConnection, port= "+port);
-        peerMessageDispenser = new PeerMessageDispenser(this.socket, port);
+        peerMessageDispenser = new PeerMessageDispenser(this.socket, address, port);
         this.analyzerSender = analyzerSender;
     }
 

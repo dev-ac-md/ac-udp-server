@@ -43,7 +43,7 @@ public class UdpServer extends DatagramServerThread implements ISendPacketToPeer
 
 //                String dataStr = new String(buffer, 0, request.getLength());
 
-                PeerConnection newPeerConnection = addPeerConnection();
+                PeerConnection newPeerConnection = addPeerConnection(clientAddress);
                 if (newPeerConnection!=null) {
                     String message = ""+newPeerConnection.getPort();
                     buffer = message.getBytes();
@@ -79,10 +79,10 @@ public class UdpServer extends DatagramServerThread implements ISendPacketToPeer
         return freeIndex!= null;
     }
 
-    private PeerConnection addPeerConnection() throws SocketException {
+    private PeerConnection addPeerConnection(InetAddress address) throws SocketException {
         Integer freeIndex = getFreeIndex();
         if (freeIndex != null) {
-            PeerConnection newPeerConnection = new PeerConnection(this.port + freeIndex + 1, this);
+            PeerConnection newPeerConnection = new PeerConnection(address,this.port + freeIndex + 1, this);
             addConnectionToList(newPeerConnection);
             newPeerConnection.start();
             return newPeerConnection;

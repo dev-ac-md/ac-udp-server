@@ -19,12 +19,14 @@ public class PeerMessageDispenser extends Thread {
     private final DatagramSocket socket;
     private final Queue<DatagramPacket> msgQueue;
     private boolean isRunning;
+    private final InetAddress address;
     private final int port;
 
-    public PeerMessageDispenser(DatagramSocket socket, int port){
+    public PeerMessageDispenser(DatagramSocket socket, InetAddress address, int port){
         this.socket = socket;
         this.isRunning = true;
         this.msgQueue = new ConcurrentLinkedQueue<>();
+        this.address = address;
         this.port = port;
     }
 
@@ -33,7 +35,7 @@ public class PeerMessageDispenser extends Thread {
             try {
                 if (!msgQueue.isEmpty()) {
                     DatagramPacket packet = msgQueue.poll();
-                    DatagramPacket newPacket = new DatagramPacket(packet.getData(), packet.getLength(), packet.getAddress(), this.port);
+                    DatagramPacket newPacket = new DatagramPacket(packet.getData(), packet.getLength(), this.address, this.port);
                     socket.send(newPacket);
                     System.out.println("peer packet sent to "+newPacket.getAddress()+":"+port+" "+new String(newPacket.getData(), 0, newPacket.getLength()));
                 }

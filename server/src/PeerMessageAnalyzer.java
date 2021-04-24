@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * This program demonstrates how to implement a UDP server program.
@@ -21,14 +22,14 @@ public class PeerMessageAnalyzer extends Thread {
     public PeerMessageAnalyzer(ISendPacketToPeer peerSender) {
         isRunning = true;
         this.peerSender = peerSender;
-        this.msgQueue = new LinkedList<>();
+        this.msgQueue = new ConcurrentLinkedQueue<>();
     }
 
     public void run() {
         while (isRunning) {
             if (!msgQueue.isEmpty()) {
                 System.out.println("processing message! ");
-                processMessage(msgQueue.remove());
+                processMessage(msgQueue.poll());
             }
         }
     }
@@ -43,6 +44,9 @@ public class PeerMessageAnalyzer extends Thread {
     }
 
     private void processMessage(DatagramPacket packet) {
+        if (packet == null) {
+            return;
+        }
         InetAddress clientAddress = packet.getAddress();
         int clientPort = packet.getPort();
 

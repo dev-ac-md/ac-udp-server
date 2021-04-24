@@ -28,6 +28,7 @@ public class UdpServer extends DatagramServerThread implements ISendPacketToPeer
         this.peerConnectionSize = 0;
         this.name = name;
         this.peerMessageAnalyzer = new PeerMessageAnalyzer(this);
+        this.peerMessageAnalyzer.start();
     }
 
     public void run() {

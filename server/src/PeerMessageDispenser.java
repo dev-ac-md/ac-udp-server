@@ -30,7 +30,9 @@ public class PeerMessageDispenser extends Thread {
         while (isRunning) {
             try {
                 if (!msgQueue.isEmpty()) {
-                    socket.send(msgQueue.poll());
+                    DatagramPacket packet = msgQueue.poll();
+                    packet.setPort(this.socket.getPort());
+                    socket.send(packet);
                 }
             } catch (IOException e) {
                 e.printStackTrace();

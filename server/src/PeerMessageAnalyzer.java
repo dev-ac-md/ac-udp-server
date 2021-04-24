@@ -26,7 +26,9 @@ public class PeerMessageAnalyzer extends Thread {
 
     public void run() {
         while (isRunning) {
+            System.out.println("PeerMessageAnalyzer run");
             if (!msgQueue.isEmpty()) {
+                System.out.println("processing message!");
                 processMessage(msgQueue.remove());
             }
         }
@@ -37,6 +39,7 @@ public class PeerMessageAnalyzer extends Thread {
     }
 
     public void addMessage(DatagramPacket message) {
+        System.out.println("add message to queue!");
         msgQueue.add(message);
     }
 

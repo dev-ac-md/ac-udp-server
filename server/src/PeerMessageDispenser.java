@@ -19,11 +19,13 @@ public class PeerMessageDispenser extends Thread {
     private final DatagramSocket socket;
     private final Queue<DatagramPacket> msgQueue;
     private boolean isRunning;
+    private final int port;
 
-    public PeerMessageDispenser(DatagramSocket socket) throws SocketException {
+    public PeerMessageDispenser(DatagramSocket socket, int port){
         this.socket = socket;
         this.isRunning = true;
         this.msgQueue = new ConcurrentLinkedQueue<>();
+        this.port = port;
     }
 
     public void run() {
@@ -31,7 +33,7 @@ public class PeerMessageDispenser extends Thread {
             try {
                 if (!msgQueue.isEmpty()) {
                     DatagramPacket packet = msgQueue.poll();
-                    packet.setPort(this.socket.getPort());
+                    packet.setPort(this.port);
                     socket.send(packet);
                 }
             } catch (IOException e) {

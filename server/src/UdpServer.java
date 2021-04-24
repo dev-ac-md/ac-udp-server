@@ -43,7 +43,7 @@ public class UdpServer extends DatagramServerThread implements ISendPacketToPeer
 
 //                String dataStr = new String(buffer, 0, request.getLength());
 
-                PeerConnection newPeerConnection = addPeerConnection(clientAddress);
+                PeerConnection newPeerConnection = addPeerConnection();
                 if (newPeerConnection!=null) {
                     String message = ""+newPeerConnection.getPort();
                     buffer = message.getBytes();
@@ -53,7 +53,7 @@ public class UdpServer extends DatagramServerThread implements ISendPacketToPeer
                     socket.send(response);
                     System.out.println("UdpServer response sent to "+clientAddress.toString()+":"+clientPort);
                 } else {
-                    System.out.println("peer connection already exists!");
+                    System.out.println("room full!");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -79,17 +79,13 @@ public class UdpServer extends DatagramServerThread implements ISendPacketToPeer
         return freeIndex!= null;
     }
 
-    private PeerConnection addPeerConnection(InetAddress clientAddress) throws SocketException {
-        if (Arrays.stream(peerConnections).filter(Objects::nonNull).noneMatch(s-> s.getClientAddress().equals(clientAddress))) {
-            Integer freeIndex = getFreeIndex();
-            if (freeIndex != null) {
-                PeerConnection newPeerConnection = new PeerConnection(this.port + freeIndex + 1, this);
-                addConnectionToList(newPeerConnection);
-                newPeerConnection.start();
-                return newPeerConnection;
-            } else {
-                return null;
-            }
+    private PeerConnection addPeerConnection() throws SocketException {
+        Integer freeIndex = getFreeIndex();
+        if (freeIndex != null) {
+            PeerConnection newPeerConnection = new PeerConnection(this.port + freeIndex + 1, this);
+            addConnectionToList(newPeerConnection);
+            newPeerConnection.start();
+            return newPeerConnection;
         } else {
             return null;
         }

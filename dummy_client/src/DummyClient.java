@@ -10,16 +10,18 @@ import java.util.Date;
  */
 public class DummyClient {
     static final int BUFFER_SIZE = 64;
+    static int id;
 //    private int timeout = 100;
 
     public static void main(String[] args) {
-        if (args.length < 2) {
-            System.out.println("Syntax: DummyClient <hostname> <port>");
+        if (args.length < 3) {
+            System.out.println("Syntax: DummyClient <hostname> <port> <id>");
             return;
         }
  
         String hostname = args[0];
         int port = Integer.parseInt(args[1]);
+        id  = Integer.parseInt(args[2]);
  
         try {
             InetAddress address = InetAddress.getByName(hostname);
@@ -72,8 +74,26 @@ public class DummyClient {
         System.out.println("peerPort: "+peerPort);
 
         DatagramSocket socketPeer = new DatagramSocket(peerPort);
-        sendMessage("0_xhaha", socketPeer, address, peerPort);
-        dataStr = receiveMessage(socketPeer);
+
+        if (id==1) {
+            testPeer1(socketPeer, address, peerPort);
+        } else {
+            testPeer2(socketPeer, address, peerPort);
+        }
+    }
+
+    private static void testPeer1(DatagramSocket socket,InetAddress address, int port) throws IOException {
+//        sendMessage("0self_test", socket, address, port);
+        while(true) {
+            String dataStr = receiveMessage(socket);
+            System.out.println("received from peer: "+dataStr);
+            sendMessage("1ok_you_can_join", socket, address, port);
+        }
+    }
+
+    private static void testPeer2(DatagramSocket socket,InetAddress address, int port) throws IOException {
+        sendMessage("0try_join: dev", socket, address, port);
+        String dataStr = receiveMessage(socket);
 
         System.out.println("received from peer: "+dataStr);
     }

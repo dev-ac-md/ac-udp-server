@@ -1,1 +1,1 @@
-java DummyClient localhost 34008
+java DummyClient localhost 34008 1

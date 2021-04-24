@@ -16,6 +16,7 @@ public class PeerConnection extends DatagramServerThread {
 
     public PeerConnection(int port, ISendToAnalysis analyzerSender) throws SocketException {
         super(port);
+        System.out.println("Create PeerConnection, port= "+port);
         peerMessageDispenser = new PeerMessageDispenser(this.socket);
         this.analyzerSender = analyzerSender;
     }

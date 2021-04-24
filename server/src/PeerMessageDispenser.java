@@ -3,6 +3,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.util.LinkedList;
 import java.util.Queue;
 
 /**
@@ -20,7 +21,8 @@ public class PeerMessageDispenser extends Thread {
 
     public PeerMessageDispenser(DatagramSocket socket) throws SocketException {
         this.socket = socket;
-        isRunning = true;
+        this.isRunning = true;
+        this.msgQueue = new LinkedList<>();
     }
 
     public void run() {

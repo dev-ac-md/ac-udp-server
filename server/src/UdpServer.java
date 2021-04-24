@@ -45,9 +45,13 @@ public class UdpServer extends DatagramServerThread implements ISendPacketToPeer
                 if (newPeerConnection!=null) {
                     String message = ""+newPeerConnection.getPort();
                     buffer = message.getBytes();
+                    System.out.println(message+ ", buffer.length= "+buffer.length);
 
                     DatagramPacket response = new DatagramPacket(buffer, buffer.length, clientAddress, clientPort);
                     socket.send(response);
+                    System.out.println("UdpServer response sent to "+clientAddress.toString()+":"+clientPort);
+                } else {
+                    System.out.println("peer connection already exists!");
                 }
             } catch (IOException e) {
                 e.printStackTrace();

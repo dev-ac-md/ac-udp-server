@@ -26,9 +26,8 @@ public class PeerMessageAnalyzer extends Thread {
 
     public void run() {
         while (isRunning) {
-            System.out.println("PeerMessageAnalyzer run");
             if (!msgQueue.isEmpty()) {
-                System.out.println("processing message!");
+                System.out.println("processing message! ");
                 processMessage(msgQueue.remove());
             }
         }

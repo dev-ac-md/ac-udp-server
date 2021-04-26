@@ -47,17 +47,17 @@ public class PeerMessageAnalyzer extends Thread {
         if (packet == null) {
             return;
         }
-        InetAddress clientAddress = packet.getAddress();
+//        InetAddress clientAddress = packet.getAddress();
         int clientPort = packet.getPort();
 
-        String dataStr = new String(packet.getData(), 0, packet.getLength());
-        int peerId = Integer.parseInt(dataStr.substring(0,1));
+//        String dataStr = new String(packet.getData(), 0, packet.getLength());
+        int peerId = 3 - (clientPort % 34000) ; // Integer.parseInt(dataStr.substring(0,1));
 
-        String message = dataStr.substring(1);
-        System.out.println("messageAnalysis: peerId= "+peerId+", message= "+message);
+//        String message = dataStr.substring(1);
+//        System.out.println("messageAnalysis: peerId= "+peerId+", message= "+message);
 
-        byte[] buffer = message.getBytes();
-        DatagramPacket response = new DatagramPacket(buffer, buffer.length, clientAddress, clientPort);
-        peerSender.sendPacketToPeer(response, peerId);
+//        byte[] buffer = message.getBytes();
+//        DatagramPacket response = new DatagramPacket(buffer, buffer.length, clientAddress, clientPort);
+        peerSender.sendPacketToPeer(packet, peerId);
     }
 }

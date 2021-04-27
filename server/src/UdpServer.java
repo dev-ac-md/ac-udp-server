@@ -106,8 +106,8 @@ public class UdpServer extends DatagramServerThread implements ISendPacketToPeer
 
     @Override
     public void sendPacketToPeer(DatagramPacket packet, int peerId) {
-        if (peerConnections[peerId]!=null ) {
-            peerConnections[peerId].addMessage(packet);
+        if (peerConnections[peerId-1]!=null ) {
+            peerConnections[peerId-1].addMessage(packet);
         }
     }
 

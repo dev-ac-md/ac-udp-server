@@ -38,7 +38,7 @@ public class PeerMessageAnalyzer extends Thread {
     }
 
     public void addMessage(DatagramPacket message) {
-        System.out.println("add message to queue!");
+//        System.out.println("add message to queue!");
         msgQueue.add(message);
     }
 
@@ -51,7 +51,7 @@ public class PeerMessageAnalyzer extends Thread {
 
 //        String dataStr = new String(packet.getData(), 0, packet.getLength());
         int peerId = 3 - (clientPort % 34000 % 100 % 10) ; // Integer.parseInt(dataStr.substring(0,1));
-        System.out.println("Send message from port "+clientPort+" to peerId "+peerId);
+//        System.out.println("Send message from port "+clientPort+" to peerId "+peerId);
 
 //        String message = dataStr.substring(1);
 //        System.out.println("messageAnalysis: peerId= "+peerId+", message= "+message);

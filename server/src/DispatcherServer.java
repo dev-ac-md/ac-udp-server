@@ -30,7 +30,7 @@ public class DispatcherServer extends DatagramServerThread {
                 int clientPort = request.getPort();
 
                 String dataStr = new String(buffer, 0, request.getLength());
-                System.out.println("received message from client: "+dataStr);
+                System.out.println("[DispatcherServer] received message from client: "+dataStr);
 
                 UdpServer newUdpServer = addUdpServer(dataStr);
                 if (newUdpServer!=null) {
@@ -39,7 +39,7 @@ public class DispatcherServer extends DatagramServerThread {
 
                     DatagramPacket response = new DatagramPacket(buffer, buffer.length, clientAddress, clientPort);
                     socket.send(response);
-                    System.out.println("response sent: "+message);
+                    System.out.println("[DispatcherServer] response sent: "+message);
                 }
 
             } catch (IOException e) {

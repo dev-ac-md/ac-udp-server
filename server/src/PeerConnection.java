@@ -27,7 +27,7 @@ public class PeerConnection extends DatagramServerThread {
     }
 
     public void run() {
-        System.out.println("peerConnection Run, port "+port);
+        System.out.println("[PeerConnection] Run, port "+port);
         peerMessageDispenser.start();
 
         while (true) {

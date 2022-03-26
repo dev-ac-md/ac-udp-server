@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * @author dev-ac-md
  */
 public class PeerMessageAnalyzer extends Thread {
-
+    private final String TEST_PEER_MSG = "test_peer";
     private final Queue<DatagramPacket> msgQueue;
     private boolean isRunning;
     private final ISendPacketToPeer peerSender;
@@ -49,8 +49,10 @@ public class PeerMessageAnalyzer extends Thread {
 //        InetAddress clientAddress = packet.getAddress();
         int clientPort = packet.getPort();
 
-//        String dataStr = new String(packet.getData(), 0, packet.getLength());
+       String dataStr = new String(packet.getData(), 0, packet.getLength());
         int peerId = 3 - (clientPort % 34000 % 100 % 10) ; // Integer.parseInt(dataStr.substring(0,1));
+        if (dataStr.equals(TEST_PEER_MSG))
+            peerId = clientPort % 34000 % 100 % 10;
 //        System.out.println("Send message from port "+clientPort+" to peerId "+peerId);
 
 //        String message = dataStr.substring(1);

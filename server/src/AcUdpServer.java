@@ -9,7 +9,8 @@ import java.util.*;
  * @author dev-ac-md
  */
 public class AcUdpServer {
- 
+    public static final int BUFFER_LEN = 8192;
+
     public static void main(String[] args) {
         if (args.length < 1) {
             System.out.println("Syntax: Server <port>");

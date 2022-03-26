@@ -14,7 +14,7 @@ import java.util.stream.*;
  * @author dev-ac-md
  */
 public class UdpServer extends DatagramServerThread implements ISendPacketToPeer, ISendToAnalysis {
-    private static final int BUFFER_LEN = 64;
+    private static final int BUFFER_LEN = AcUdpServer.BUFFER_LEN;
     private static final int NR_PEERS=7;
 
     private final PeerConnection[] peerConnections;

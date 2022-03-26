@@ -8,7 +8,7 @@ import java.net.*;
  * @author dev-ac-md
  */
 public class PeerConnection extends DatagramServerThread {
-    private static final int BUFFER_LEN = 64;
+    private static final int BUFFER_LEN = AcUdpServer.BUFFER_LEN;
 
     InetAddress clientAddress;
     PeerMessageDispenser peerMessageDispenser;

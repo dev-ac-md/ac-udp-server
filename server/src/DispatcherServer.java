@@ -10,7 +10,7 @@ import java.net.*;
  * @author dev-ac-md
  */
 public class DispatcherServer extends DatagramServerThread {
-    private static final int BUFFER_LEN = 64;
+    private static final int BUFFER_LEN = AcUdpServer.BUFFER_LEN;
 
     List<UdpServer> udpServerList;
 

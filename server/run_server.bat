@@ -1,1 +1,1 @@
-java AcUdpServer 34008
+java -cp target/ AcUdpServer 34008 ERROR

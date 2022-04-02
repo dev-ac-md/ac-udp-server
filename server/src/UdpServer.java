@@ -47,13 +47,13 @@ public class UdpServer extends DatagramServerThread implements ISendPacketToPeer
                 if (newPeerConnection!=null) {
                     String message = ""+newPeerConnection.getPort();
                     buffer = message.getBytes();
-                    System.out.println("[UdpServer] response message for "+ clientAddress.toString() + ": " + message+ ", buffer.length= "+buffer.length);
+                    Logger.info("[UdpServer] response message for "+ clientAddress.toString() + ": " + message+ ", buffer.length= "+buffer.length);
 
                     DatagramPacket response = new DatagramPacket(buffer, buffer.length, clientAddress, clientPort);
                     socket.send(response);
-                    System.out.println("[UdpServer] response sent to "+clientAddress.toString()+":"+clientPort);
+                    Logger.info("[UdpServer] response sent to "+clientAddress.toString()+":"+clientPort);
                 } else {
-                    System.out.println("[UdpServer] room full!");
+                    Logger.info("[UdpServer] room full!");
                 }
             } catch (IOException e) {
                 e.printStackTrace();

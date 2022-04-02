@@ -1,1 +1,1 @@
-javac -d . src/*.java
+javac -d target/ src/*.java

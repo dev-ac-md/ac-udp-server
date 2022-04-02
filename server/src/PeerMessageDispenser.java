@@ -37,7 +37,7 @@ public class PeerMessageDispenser extends Thread {
                     DatagramPacket packet = msgQueue.poll();
                     DatagramPacket newPacket = new DatagramPacket(packet.getData(), packet.getLength(), this.address, this.port);
                     socket.send(newPacket);
-                    System.out.println("[PeerMessageDispenser] peer packet sent to "+newPacket.getAddress()+":"+port+" ");
+                    Logger.info("[PeerMessageDispenser] peer packet sent to "+newPacket.getAddress()+":"+port+" ");
                 }
             } catch (IOException e) {
                 e.printStackTrace();

@@ -13,17 +13,21 @@ public class AcUdpServer {
 
     public static void main(String[] args) {
         if (args.length < 1) {
-            System.out.println("Syntax: Server <port>");
+            Logger.error("Syntax: Server <port>");
             return;
         }
  
         int port = Integer.parseInt(args[0]);
+
+        if (args.length >=2) {
+            Logger.setPriority(args[1]);
+        }
  
         try {
             DispatcherServer server = new DispatcherServer(port);
             server.start();
         } catch (SocketException ex) {
-            System.out.println("Socket error: " + ex.getMessage());
+            Logger.error("Socket error: " + ex.getMessage());
         } 
     }
  
